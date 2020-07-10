@@ -15,8 +15,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     due_date_time: {
       type: DataTypes.TIME,
+      allowNull: false,
       validate: {
-        allowNull: false,
         notEmpty: true
       }
     },
