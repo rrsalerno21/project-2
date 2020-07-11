@@ -50,7 +50,7 @@ module.exports = function(app) {
         },
         include: db.User.email
       })
-        .then(tasks => res.status(200).send(tasks))
+        .then(tasks => res.status(200).json(tasks))
         .catch(err => res.status(404).send(err));
     }
   });
@@ -79,11 +79,21 @@ module.exports = function(app) {
       },
       {
         where: {
-          UserId: req.body.UserId
+          id: req.body.id
         }
       }
     )
       .then(editedTask => res.status(200).json(editedTask))
+      .catch(err => res.status(404).send(err));
+  });
+
+  app.delete("/api/delete-task", (req, res) => {
+    db.Task.destroy({
+      where: {
+        UserId: req.body.UserId
+      }
+    })
+      .then(() => res.status(200).send("Task deleted now"))
       .catch(err => res.status(404).send(err));
   });
 };
