@@ -90,10 +90,10 @@ module.exports = function(app) {
   app.delete("/api/delete-task", (req, res) => {
     db.Task.destroy({
       where: {
-        UserId: req.body.UserId
+        id: req.body.id
       }
     })
-      .then(() => res.status(200).send("Task deleted now"))
+      .then(() => res.status(200).send("Task deleted"))
       .catch(err => res.status(404).send(err));
   });
 };
