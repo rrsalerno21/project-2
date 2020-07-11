@@ -12,6 +12,14 @@
 </head>
 
 <body>
+    <div class="testing-buttons">
+        <p class="h3">TESTING BUTTONS</p>
+        <button id="GET">GET data</button>
+        <button id="POST">POST data</button>
+        <button id="PUT">EDIT data</button>
+        <button id="DELETE">DELETE data</button>
+    </div>
+
     <div class="container-fluid ">
         <div class="row">
             <div class="col-sm-3 border bg-primary text-white" style="height: auto">
@@ -232,6 +240,48 @@
                 $('#modal-btn').click();
             }
             newCatBtn.append('<option selected>Exercise</option>');
+        });
+
+        $('#GET').on('click', () => {
+            $.get('/api/user_data').then(data => {
+                console.log(data)
+            });
+        });
+
+        $('#POST').on('click', () => {
+            $.post('/api/create', {
+                task: "browser posted task",
+                due_date: "2020-07-10",
+                due_date_time: "9:00:00",
+                category: "General",
+                UserId: 1
+            }).then(data => {
+                console.log(data)
+            });
+        });
+
+        $('#PUT').on('click', () => {
+            $.ajax({
+                url: '/api/edit',
+                method: 'PUT',
+                data: {
+                    task: 'Editing my post',
+                    due_date: "2020-07-22",
+                    due_date_time: "20:00:00",
+                    category: "New Cat",
+                    id: 11
+                }
+            }).then(response => console.log(response));
+        });
+
+        $('#DELETE').on('click', () => {
+            $.ajax({
+                url:'/api/delete-task',
+                method: 'DELETE',
+                data:{
+                    id: 10
+                }
+            }).then(res => console.log(res));
         })
     </script>
 </body>
