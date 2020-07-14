@@ -5,6 +5,7 @@ $(document).ready(() => {
   // Event Listeners
   // eslint-disable-next-line prefer-arrow-callback
   $(document).on("click", ".complete-task-btn", updateTaskStatus);
+  $(document).on("click", ".delete-task-btn", deleteTask);
 
   // Function to render the task list
   function renderTasks() {
@@ -149,5 +150,25 @@ $(document).ready(() => {
         id: dataId
       }
     }).then(data => console.log(`${data}`));
+  }
+  // Function to update the status of the task
+  function deleteTask() {
+    const selectedRow = $(this)
+      .parent()
+      .parent();
+    const dataId = selectedRow.data("id");
+
+    console.log(dataId);
+
+    $.ajax({
+      url: "/api/delete-task",
+      method: "DELETE",
+      data: {
+        id: dataId
+      }
+    }).then(data => {
+      console.log(data);
+      renderTasks();
+    });
   }
 });
