@@ -38,7 +38,6 @@ module.exports = function(app) {
 
   // Route for getting data about our user's tasks to be used client side
   app.get("/api/user_data", (req, res) => {
-    console.log(req.user);
     if (!req.user) {
       // The user is not logged in, send back a 403 status code
       res.status(403).end();
@@ -64,8 +63,8 @@ module.exports = function(app) {
       db.Task.create({
         task: req.body.task,
         due_date: req.body.due_date,
-        due_date_time: req.body.due_date_time,
         category: req.body.category,
+        complete: req.body.complete,
         UserId: req.body.UserId
       })
         .then(newTask => res.status(201).json(newTask))
@@ -82,8 +81,8 @@ module.exports = function(app) {
         {
           task: req.body.task,
           due_date: req.body.due_date,
-          due_date_time: req.body.due_date_time,
-          category: req.body.category
+          category: req.body.category,
+          complete: req.body.complete
         },
         {
           where: {
