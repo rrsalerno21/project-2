@@ -65,6 +65,7 @@ module.exports = function(app) {
         due_date: req.body.due_date,
         due_date_time: req.body.due_date_time,
         category: req.body.category,
+        complete: req.body.complete,
         UserId: req.body.UserId
       })
         .then(newTask => res.status(201).json(newTask))
@@ -82,7 +83,8 @@ module.exports = function(app) {
           task: req.body.task,
           due_date: req.body.due_date,
           due_date_time: req.body.due_date_time,
-          category: req.body.category
+          category: req.body.category,
+          complete: req.body.complete
         },
         {
           where: {
