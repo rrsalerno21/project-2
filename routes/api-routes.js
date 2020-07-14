@@ -63,7 +63,6 @@ module.exports = function(app) {
       db.Task.create({
         task: req.body.task,
         due_date: req.body.due_date,
-        due_date_time: req.body.due_date_time,
         category: req.body.category,
         complete: req.body.complete,
         UserId: req.body.UserId
@@ -82,7 +81,6 @@ module.exports = function(app) {
         {
           task: req.body.task,
           due_date: req.body.due_date,
-          due_date_time: req.body.due_date_time,
           category: req.body.category,
           complete: req.body.complete
         },
