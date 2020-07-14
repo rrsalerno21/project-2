@@ -16,6 +16,11 @@ module.exports = function(sequelize, DataTypes) {
     category: {
       type: DataTypes.STRING(50),
       defaultValue: "General"
+    },
+    complete: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
     }
   });
 
