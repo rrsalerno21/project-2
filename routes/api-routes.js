@@ -38,7 +38,6 @@ module.exports = function(app) {
 
   // Route for getting data about our user's tasks to be used client side
   app.get("/api/user_data", (req, res) => {
-    console.log(req.user);
     if (!req.user) {
       // The user is not logged in, send back a 403 status code
       res.status(403).end();
