@@ -67,7 +67,7 @@
                             <th scope="col">Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tasks-div">
                             <tr data-id="1" data-complete="false">
                                 <td class="task-date" scope="row">7/06/20</td>
                                 <td class="task-title">Take out the trash</td>
@@ -75,9 +75,9 @@
                                 <th>
                                     <button type="button" class="btn btn-success mt-3 complete-task-btn" data-id="1"><i
                                             class="fas fa-check-square"></i></button>
-                                    <button type="button" class="btn btn-danger mt-3"> <i
+                                    <button type="button" class="btn btn-danger mt-3 delete-task-btn"> <i
                                             class="fas fa-trash-alt"></i></button>
-                                    <button type="button" class="btn btn-warning mt-3"><i
+                                    <button type="button" class="btn btn-warning mt-3 edit-task-btn"><i
                                             class="fas fa-pencil-alt"></i></i></button>
                                 </th>
                             </tr>
@@ -245,7 +245,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-        <script src="js/members.js"></script>
+    <script src="moment/moment.min.js"></script>
+    <script src="js/members.js"></script>
     <script type="text/javascript">
         let newCatBtn = $('#categoryInput');
         console.log(newCatBtn)
