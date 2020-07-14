@@ -14,10 +14,16 @@ td
 label {
   font-family: font-family: 'Bebas Neue', cursive;
 }
-#arrow-div{
-  background-color: #4A6AEE; !important;
+#arrow-div
+{
+  background-color: #4A6AEE !important;
 }
 #covid{
   background-color: #3F3F43 !important;
   font-family: 'Abel', sans-serif !important;
+}
+#menu-bar,
+.navbar-header {
+  background-image: url("/bgw.jpg");
+
 }
