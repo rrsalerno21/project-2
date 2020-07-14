@@ -11,10 +11,19 @@ td
  {
   font-family: 'Abel', sans-serif !important;
 }
-label {
-  font-family: 'Bebas Neue', cursive;
+h2,
+h1,
+.login-nav,
+#display-4 {
+  font-family: 'Bebas Neue', cursive !important; 
 }
-#arrow-div
+label,
+.form-control {
+  font-family: 'Bebas Neue', cursive;
+  font-size: medium;
+}
+#arrow-div,
+#signup-pg
 {
   background-color: #4A6AEE !important;
 }
@@ -23,7 +32,8 @@ label {
   font-family: 'Abel', sans-serif !important;
 }
 #menu-bar,
-.navbar-header {
+.navbar-header,
+.signup-body,
+.navbar-default {
   background-image: url("/bgw.jpg");
-
 }
