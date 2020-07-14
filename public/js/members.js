@@ -3,9 +3,10 @@ $(document).ready(() => {
   renderTasks();
 
   // Event Listeners
-  // eslint-disable-next-line prefer-arrow-callback
   $(document).on("click", ".complete-task-btn", updateTaskStatus);
   $(document).on("click", ".delete-task-btn", deleteTask);
+  $(document).on("click", ".edit-task-btn", openEditModule);
+  $("#save-edit-btn").on("click", saveEdit);
 
   // Function to render the task list
   function renderTasks() {
@@ -151,7 +152,7 @@ $(document).ready(() => {
       }
     }).then(data => console.log(`${data}`));
   }
-  // Function to update the status of the task
+  // Function to delete a task
   function deleteTask() {
     const selectedRow = $(this)
       .parent()
@@ -170,5 +171,103 @@ $(document).ready(() => {
       console.log(data);
       renderTasks();
     });
+  }
+
+  async function openEditModule() {
+    const selectedRow = $(this)
+      .parent()
+      .parent();
+    const taskTitle = selectedRow.children(".task-title").text();
+    const taskCategory = selectedRow.children(".task-category").text();
+
+    // get category list
+    try {
+      const userData = await $.ajax({
+        url: "/api/user_data",
+        method: "GET"
+      });
+
+      // declare array for categories and variable to get the task due date
+      const catArray = [];
+      let userDate;
+
+      // loop through userData
+      for (item of userData) {
+        catArray.push(item.category);
+        if (item.task === taskTitle) {
+          userDate = item.due_date;
+        }
+      }
+
+      // remove duplicate categories from list
+      removeDupes(catArray);
+
+      // format due date
+      const formattedDate = userDate.split("T")[0];
+
+      // set title and date to selected task data for editing
+      $("#modal-task-title").val(taskTitle);
+      $("#modal-task-date").val(formattedDate);
+
+      // handle the category section
+      // first empty the select element of options
+      $("#edit-categoryInput").empty();
+
+      // then iterate throw the catArray to append options
+      // while selecting the current category
+      let selectedCat;
+
+      for (cat of catArray) {
+        if (cat === taskCategory) {
+          selectedCat = $("<option>")
+            .attr("selected", "")
+            .text(cat);
+          $("#edit-categoryInput").append(selectedCat);
+        } else {
+          selectedCat = $("<option>").text(cat);
+          $("#edit-categoryInput").append(selectedCat);
+        }
+      }
+      // open the modal
+      $("#task-modal-btn").click();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  function saveEdit() {
+    const modalTaskTitle = $("#modal-task-title").val(),
+      modalTaskDate = $("#modal-task-date").val(),
+      modalCategory = $("#edit-categoryInput").val();
+
+    console.log(modalTaskTitle, modalTaskDate, modalCategory);
+  }
+
+  function removeDupes(arr) {
+    bubbleSort(arr);
+
+    for (let i = arr.length; i >= 0; i--) {
+      if (arr[i] === arr[i - 1]) {
+        arr.splice(i, 1);
+      }
+    }
+
+    return arr;
+  }
+
+  function bubbleSort(arr) {
+    let done = false;
+    while (!done) {
+      done = true;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] > arr[i + 1]) {
+          done = false;
+          const tmp = arr[i + 1];
+          arr[i + 1] = arr[i];
+          arr[i] = tmp;
+        }
+      }
+    }
+    return arr;
   }
 });
