@@ -15,10 +15,18 @@
 </head>
 
 <body>
+    <div class="row" id="menu-bar">
+            <div class="container text-right p-1">
+        <button type="button" class="btn btn-primary">Logout</button>
+        </div>
+    </div>
+
         <div class="row">
-            <div class="col-sm-3 border text-white" style="height: auto; background-color: #4A6AEE;" id="sidebar">
-                <h1 class="h-25 p-5 h1" style="font-family: 'Bebas Neue', cursive;">Forget Me Not</h1>
-                <div id="form" class="h-50 shadow mb-3 p-3 text-secondary bg-light rounded">
+            <div class="col-sm-3 border text-white pb-3" style="height: auto; background-color: #4A6AEE;" id="sidebar">
+                <div class="text-center">
+                    <img src="/fmnlogo.png">
+                </div>
+                <div id="form" class="h-50 shadow m-3 p-3 text-secondary bg-light rounded">
                     <p class="h5" style="font-family: 'Bebas Neue', cursive;">Add your Tasks</p>
                     <form>
                         <div class="form-group">
@@ -40,7 +48,7 @@
                         </div>
                     </form>
                 </div>
-                <div id="covid" class="bg-secondary text-white p-3 shadow rounded h-auto">
+                <div id="covid" class="bg-secondary text-white p-3 shadow rounded h-auto m-3">
                     <p class="h4" style="font-family: 'Bebas Neue', cursive;">COVID UPDATE</p>
                     <p>The world is burning slowly while people scare quickly.</p>
                 </div>
@@ -121,7 +129,7 @@
                 </div>
 
 
-                <div class="row" id="arrow-div">
+                <div class="row h-100\\\" id="arrow-div">
                     <div class="container text-right m-3">
                     <button type="button" class="btn btn-light">
                         <i class="fas fa-arrow-circle-left" id="left-arrow"></i>
@@ -133,7 +141,8 @@
                         </div>
                 </div>
 
-                <div class="row h-50 mt-3">
+
+                <div class="row h-50 mt-3 d-none">
                     <div class="col border align-right">
                         <p>
                             SUN<br>
@@ -188,13 +197,19 @@
             </div>
         </div>
     </div>
+   
+</div>
+<div class="row" id="menu-bar">
+    <div class="container text-right p-4">
+</div>
+
 
     <!-- Button trigger modal -->
     <button type="button" id="modal-btn" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModal">
         Launch demo modal
     </button>
 
-    <!-- Modal -->
+    <!-- Add Task Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -284,6 +299,7 @@
             }).then(res => console.log(res));
         })
     </script>
+    
 </body>
 
 </html>
