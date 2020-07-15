@@ -50,7 +50,13 @@ module.exports = function(app) {
         },
         include: db.User.email
       })
-        .then(tasks => res.status(200).json(tasks))
+        .then(tasks => {
+          const user_data = {
+            tasks: tasks,
+            userID: req.user.id
+          };
+          res.status(200).json(user_data);
+        })
         .catch(err => res.status(404).send(err));
     }
   });

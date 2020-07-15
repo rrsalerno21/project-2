@@ -21,8 +21,9 @@ $(document).ready(() => {
     tasksDiv.empty();
 
     // then get our user's data
-    $.get("/api/user_data").then(data => {
-      console.log(data);
+    $.get("/api/user_data").then(response => {
+      console.log(response);
+      const data = response.tasks;
 
       // then iterate through the data
       for (item of data) {
@@ -201,12 +202,14 @@ $(document).ready(() => {
         method: "GET"
       });
 
+      const taskData = userData.tasks;
+
       // declare array for categories and variable to get the task due date
       const catArray = [];
       let userDate;
 
       // loop through userData
-      for (item of userData) {
+      for (item of taskData) {
         catArray.push(item.category);
         if (item.task === taskTitle) {
           userDate = item.due_date;
@@ -336,11 +339,13 @@ $(document).ready(() => {
         method: "GET"
       });
 
+      const taskData = userData.tasks;
+
       // declare array for categories
       const catArray = [];
 
       // loop through userData
-      for (item of userData) {
+      for (item of taskData) {
         catArray.push(item.category);
       }
 
@@ -415,7 +420,7 @@ $(document).ready(() => {
         due_date: taskDate,
         category: taskCategory,
         complete: false,
-        UserId: userData[0].UserId
+        UserId: userData.userID
       });
 
       console.log(newTask);
