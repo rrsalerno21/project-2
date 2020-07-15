@@ -13,16 +13,14 @@ module.exports = function(sequelize, DataTypes) {
         isDate: true
       }
     },
-    due_date_time: {
-      type: DataTypes.TIME,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
     category: {
       type: DataTypes.STRING(50),
       defaultValue: "General"
+    },
+    complete: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
     }
   });
 
