@@ -72,7 +72,7 @@ $(document).ready(() => {
       });
     }
 
-    const formattedTime = moment(taskDate).format("MM/DD");
+    const formattedTime = moment.utc(taskDate).format("MM/DD");
 
     const dateItem = $("<td>")
       .attr({
