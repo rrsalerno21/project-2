@@ -1,17 +1,50 @@
 $(document).ready(() => {
+  // jQuery Selectors
+  const select = {
+    // Rendered Tasks Div
+    tasksMainDiv: $("#tasks-div"),
+
+    // Add Task Form
+    addFormTaskInput: $("#taskInput"),
+    addFormDateInput: $("#dateInput"),
+    addFormCategoryInput: $("#categoryInput"),
+    addFormCategoryOptions: $("#categoryInput option"),
+    addFormAlert: $("#add-task-alert"),
+    addFormAlertMsg: $("#add-task-alert .msg"),
+    addTaskBtn: $("#add-task-btn"),
+
+    // New Category Modal
+    newCatInput: $("#new-category-create"),
+    newCatOpenModalBtn: $("#cat-modal-btn"),
+    newCatCloseModalBtn: $("#close-cat-modal"),
+    newCatAlert: $("#add-category-alert"),
+    newCatAlertMsg: $("#add-category-alert .msg"),
+    newCatSaveBtn: $("#save-new-category"),
+
+    // Edit Task Modal
+    editFormTaskInput: $("#modal-task-title"),
+    editFormDateInput: $("#modal-task-date"),
+    editFormCategoryInput: $("#edit-categoryInput"),
+    editFormOpenModalBtn: $("#task-modal-btn"),
+    editFormCloseModalBtn: $("#edit-modal-close"),
+    editFormAlert: $("#edit-task-alert"),
+    editFormAlertMsg: $("#edit-task-alert .msg"),
+    editTaskBtn: $("#save-edit-btn")
+  };
+
   // Execute on load
   renderTasks();
   renderInputTasks();
 
   // Event Listeners
   // ===================================
-  $("#add-task-btn").on("click", addTask);
-  $("#categoryInput").on("change", openCategoryModal);
-  $("#save-new-category").on("click", addNewCategory);
+  select.addTaskBtn.on("click", addTask);
+  select.addFormCategoryInput.on("change", openCategoryModal);
+  select.newCatSaveBtn.on("click", addNewCategory);
   $(document).on("click", ".complete-task-btn", updateTaskStatus);
   $(document).on("click", ".delete-task-btn", deleteTask);
   $(document).on("click", ".edit-task-btn", openEditModal);
-  $("#save-edit-btn").on("click", saveEdit);
+  select.editTaskBtn.on("click", saveEdit);
 
   // RENDERING FUNCTIONS
   // ====================================
@@ -19,7 +52,7 @@ $(document).ready(() => {
   // Function to render the task list
   function renderTasks() {
     // identify the tasks div
-    const tasksDiv = $("#tasks-div");
+    const tasksDiv = select.tasksMainDiv;
 
     // first empty the tasksDiv
     tasksDiv.empty();
@@ -148,10 +181,10 @@ $(document).ready(() => {
   // Function to render the values of the Add Task input form
   function renderInputTasks() {
     // clear Task input field
-    $("#taskInput").val("");
+    select.addFormTaskInput.val("");
 
     // set current date in date field
-    $("#dateInput").val(moment().format("YYYY-MM-DD"));
+    select.addFormDateInput.val(moment().format("YYYY-MM-DD"));
 
     // get category list
     renderCategoryList();
@@ -179,7 +212,7 @@ $(document).ready(() => {
 
       // Now to render our catArray into the category section
       // First empty the select element of options
-      $("#categoryInput").empty();
+      select.addFormCategoryInput.empty();
 
       // Create our default options we know will exist in the list:
       // Create a disabledChoice option:
@@ -195,17 +228,17 @@ $(document).ready(() => {
       const newCatChoice = $("<option>").text("Add New Category");
 
       // Append the disabledChoice option first
-      $("#categoryInput").append(disabledChoice);
+      select.addFormCategoryInput.append(disabledChoice);
 
       // Then iterate through the catArray to append options
       let catOption;
       for (cat of catArray) {
         catOption = $("<option>").text(cat);
-        $("#categoryInput").append(catOption);
+        select.addFormCategoryInput.append(catOption);
       }
 
       // finally, append the newCatChoice option as the last option
-      $("#categoryInput").append(newCatChoice);
+      select.addFormCategoryInput.append(newCatChoice);
     } catch (err) {
       throw err;
     }
@@ -218,17 +251,17 @@ $(document).ready(() => {
   async function addTask() {
     // Declare the existing values from the inputs and a
     // regex object for validating inputs
-    const taskInput = $("#taskInput").val(),
-      taskDate = $("#dateInput").val(),
-      taskCategory = $("#categoryInput").val(),
+    const taskInput = select.addFormTaskInput.val(),
+      taskDate = select.addFormDateInput.val(),
+      taskCategory = select.addFormCategoryInput.val(),
       acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
 
     // check for input validation
     if (!taskInput || !taskDate || !taskCategory) {
-      $("#add-task-alert .msg").text(
+      select.addFormAlertMsg.text(
         "Please provide a task Name, Date, and Category."
       );
-      $("#add-task-alert").fadeIn(500);
+      select.addFormAlert.fadeIn(500);
       return;
     }
 
@@ -237,16 +270,16 @@ $(document).ready(() => {
       acceptableCharacters.test(taskInput) ||
       acceptableCharacters.test(taskCategory)
     ) {
-      $("#add-task-alert .msg").text(
+      select.addFormAlertMsg.text(
         "Unnacceptable characters found in your inputs. \n (Only accepts alphanumeric and .'?!,@$#-*_ characters)"
       );
-      $("#add-task-alert").fadeIn(500);
-      $("#taskInput").focus();
+      select.addFormAlert.fadeIn(500);
+      select.addFormTaskInput.focus();
       return;
     }
 
     // fadeOut the alert message if it still is fadedIn
-    $("#add-task-alert").fadeOut(250);
+    select.addFormAlert.fadeOut(250);
 
     try {
       // Get the user's data
@@ -266,10 +299,10 @@ $(document).ready(() => {
       renderInputTasks();
     } catch (error) {
       // If there's an error, alert using the alert div for the form and throw error
-      $("#add-task-alert .msg").text(
+      select.addFormAlertMsg.text(
         "Something went wrong.  Check your internet connection and try again"
       );
-      $("#add-task-alert").fadeIn(500);
+      select.addFormAlert.fadeIn(500);
       throw error;
     }
   }
@@ -277,19 +310,19 @@ $(document).ready(() => {
   // Function to open the Category Modal
   function openCategoryModal() {
     // Remove error message if previously used
-    $("#add-category-alert").fadeOut(100);
+    select.newCatAlert.fadeOut(100);
 
     // Declare the selector for the category input
-    const newCatBtn = $("#categoryInput");
+    const newCatBtn = select.addFormCategoryInput;
 
     // If the changed value is "Add New Category", then we execute our
     // opening code
     if (newCatBtn.val() === "Add New Category") {
       // First empty the value from any previous use
-      $("#new-category-create").val("");
+      select.newCatInput.val("");
 
       // Click on the hidden modal button
-      $("#cat-modal-btn").click();
+      select.newCatOpenModalBtn.click();
 
       // Select an empty option for the category input so that if the user
       // cancels out of adding a new category, they can change to "Add New
@@ -303,26 +336,26 @@ $(document).ready(() => {
     // Declare the existing values from the inputs and a
     // regex object for validating inputs
     acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
-    const newCatVal = $("#new-category-create").val();
+    const newCatVal = select.newCatInput.val();
 
     // Validate inputs are not empty
     if (!newCatVal) {
-      $("#add-category-alert .msg").text("Please provide a new category name.");
-      $("#add-category-alert").fadeIn(500);
+      select.newCatAlertMsg.text("Please provide a new category name.");
+      select.newCatAlert.fadeIn(500);
       return;
     }
 
     // Validate inputs contain only acceptable characters
     if (acceptableCharacters.test(newCatVal)) {
-      $("#add-category-alert .msg").text(
+      select.newCatAlertMsg.text(
         "Unnacceptable characters found in your category input. (Only accepts alphanumeric and .'?!,@$#-*_ characters)"
       );
-      $("#add-category-alert").fadeIn(500);
+      select.newCatAlert.fadeIn(500);
       return;
     }
 
     // FadeOut alert message if already fadedIn
-    $("#add-category-alert").fadeOut(100);
+    select.newCatAlert.fadeOut(100);
 
     // Create a new option to be added to category input list
     const newCatOption = $("<option>")
@@ -334,15 +367,13 @@ $(document).ready(() => {
       await renderCategoryList();
 
       // Remove the choice option
-      $("#categoryInput option")
-        .first()
-        .remove();
+      select.addFormCategoryOptions.first().remove();
 
       // Add our new category to the category list
-      $("#categoryInput").prepend(newCatOption);
+      select.addFormCategoryInput.prepend(newCatOption);
 
       // Close our category modal
-      $("#close-cat-modal").click();
+      select.newCatCloseModalBtn.click();
     } catch (error) {
       throw error;
     }
@@ -430,7 +461,7 @@ $(document).ready(() => {
   // Function to open the edit modal
   async function openEditModal() {
     // Clear error message if already used
-    $("#edit-task-alert").fadeOut(100);
+    select.editFormAlert.fadeOut(100);
 
     // Declare the selected row, it's data attributes, and row's values
     const selectedRow = $(this)
@@ -469,12 +500,12 @@ $(document).ready(() => {
       const formattedDate = userDate.split("T")[0];
 
       // set title and date to selected task data for editing
-      $("#modal-task-title").val(taskTitle);
-      $("#modal-task-date").val(formattedDate);
+      select.editFormTaskInput.val(taskTitle);
+      select.editFormDateInput.val(formattedDate);
 
       // Handle the category section
       // First empty the select element of options
-      $("#edit-categoryInput").empty();
+      select.editFormCategoryInput.empty();
 
       // Then iterate throw the catArray to append options
       // while selecting the current category
@@ -485,21 +516,21 @@ $(document).ready(() => {
           selectedCat = $("<option>")
             .attr("selected", "")
             .text(cat);
-          $("#edit-categoryInput").append(selectedCat);
+          select.editFormCategoryInput.append(selectedCat);
         } else {
           selectedCat = $("<option>").text(cat);
-          $("#edit-categoryInput").append(selectedCat);
+          select.editFormCategoryInput.append(selectedCat);
         }
       }
 
       // Set the id onto the save button
-      $("#save-edit-btn").attr({
+      select.editTaskBtn.attr({
         "data-id": taskId,
         "data-complete": taskComplete
       });
 
       // Open the modal
-      $("#task-modal-btn").click();
+      select.editFormOpenModalBtn.click();
     } catch (error) {
       throw error;
     }
@@ -508,19 +539,19 @@ $(document).ready(() => {
   // Function to edit a task within the edit modal
   function saveEdit() {
     // Declare input values and regex object for acceptable characters
-    const modalTaskTitle = $("#modal-task-title").val(),
-      modalTaskDate = $("#modal-task-date").val(),
-      modalCategory = $("#edit-categoryInput").val(),
-      modalTaskComplete = $("#save-edit-btn").data("complete"),
-      modalTaskId = $("#save-edit-btn").data("id"),
+    const modalTaskTitle = select.editFormTaskInput.val(),
+      modalTaskDate = select.editFormDateInput.val(),
+      modalCategory = select.editFormCategoryInput.val(),
+      modalTaskComplete = select.editTaskBtn.data("complete"),
+      modalTaskId = select.editTaskBtn.data("id"),
       acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
 
     // Validate for empty inputs
     if (!modalTaskTitle || !modalTaskDate || !modalCategory) {
-      $("#edit-task-alert .msg").text(
+      select.editFormAlertMsg.text(
         "Please provide a task Name, Date, and Category to save your edit."
       );
-      $("#edit-task-alert").fadeIn(500);
+      select.editFormAlert.fadeIn(500);
       return;
     }
 
@@ -529,16 +560,16 @@ $(document).ready(() => {
       acceptableCharacters.test(modalTaskTitle) ||
       acceptableCharacters.test(modalCategory)
     ) {
-      $("#edit-task-alert .msg").text(
+      select.editFormAlertMsg.text(
         "Unnacceptable characters found in your inputs. \n (Only accepts alphanumeric and .'?!,@$#-*_ characters)"
       );
-      $("#edit-task-alert").fadeIn(500);
-      $("#modal-task-title").focus();
+      select.editFormAlert.fadeIn(500);
+      select.editFormTaskInput.focus();
       return;
     }
 
     // FadeOut alert message if already fadedIn
-    $("#edit-task-alert").fadeOut(250);
+    select.editFormAlert.fadeOut(250);
 
     // Execute PUT request to update the task's data
     $.ajax({
@@ -557,7 +588,7 @@ $(document).ready(() => {
         console.log(data);
 
         // Close the Edit Task Modal
-        $("#edit-modal-close").click();
+        select.editFormCloseModalBtn.click();
 
         // Render our Task List
         renderTasks();
