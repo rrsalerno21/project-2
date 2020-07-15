@@ -5,8 +5,9 @@ $(document).ready(() => {
   // Event Listeners
   $(document).on("click", ".complete-task-btn", updateTaskStatus);
   $(document).on("click", ".delete-task-btn", deleteTask);
-  $(document).on("click", ".edit-task-btn", openEditModule);
+  $(document).on("click", ".edit-task-btn", openEditModal);
   $("#save-edit-btn").on("click", saveEdit);
+  $("#categoryInput").on("change", openCategoryModal);
 
   // Function to render the task list
   function renderTasks() {
@@ -173,7 +174,7 @@ $(document).ready(() => {
     });
   }
 
-  async function openEditModule() {
+  async function openEditModal() {
     const selectedRow = $(this)
       .parent()
       .parent();
@@ -241,6 +242,14 @@ $(document).ready(() => {
       modalCategory = $("#edit-categoryInput").val();
 
     console.log(modalTaskTitle, modalTaskDate, modalCategory);
+  }
+
+  function openCategoryModal() {
+    const newCatBtn = $("#categoryInput");
+    if (newCatBtn.val() === "Add New Category") {
+      console.log("you clicked me");
+      $("#cat-modal-btn").click();
+    }
   }
 
   function removeDupes(arr) {
