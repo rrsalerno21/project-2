@@ -8,17 +8,17 @@ $(document).ready(() => {
   // When the signup button is clicked, we validate the email and password and state are not blank
   signUpForm.on("submit", event => {
     event.preventDefault();
-    
+
     const userData = {
       email: emailInput.val().trim(),
       password: passwordInput.val().trim(),
       state: stateInput.val()
     };
 
-    
-
     if (!userData.email || !userData.password || !userData.state) {
-      $("#alert .msg").text("Please provide an email address, password, and state location");
+      $("#alert .msg").text(
+        "Please provide an email address, password, and state location"
+      );
       $("#alert").fadeIn(500);
       return;
     }
