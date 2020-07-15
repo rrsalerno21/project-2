@@ -67,17 +67,17 @@
                             <th scope="col">Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td scope="row">7/06/20</td>
-                                <td>Take out the trash</td>
-                                <td>Home</td>
+                        <tbody id="tasks-div">
+                            <tr data-id="1" data-complete="false">
+                                <td class="task-date" scope="row">7/06/20</td>
+                                <td class="task-title">Take out the trash</td>
+                                <td class="task-category">Home</td>
                                 <th>
-                                    <button type="button" class="btn btn-success mt-3"><i
+                                    <button type="button" class="btn btn-success mt-3 complete-task-btn" data-id="1"><i
                                             class="fas fa-check-square"></i></button>
-                                    <button type="button" class="btn btn-danger mt-3"> <i
+                                    <button type="button" class="btn btn-danger mt-3 delete-task-btn"> <i
                                             class="fas fa-trash-alt"></i></button>
-                                    <button type="button" class="btn btn-warning mt-3"><i
+                                    <button type="button" class="btn btn-warning mt-3 edit-task-btn"><i
                                             class="fas fa-pencil-alt"></i></i></button>
                                 </th>
                             </tr>
@@ -204,18 +204,23 @@
 </div>
 
 
-    <!-- Button trigger modal -->
-    <button type="button" id="modal-btn" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModal">
-        Launch demo modal
+    <!-- Category Button trigger modal -->
+    <button type="button" id="cat-modal-btn" class="btn btn-primary d-none" data-toggle="modal" data-target="#categoryModal">
+        Launch category modal
     </button>
 
-    <!-- Add Task Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- Task Button trigger modal -->
+    <button type="button" id="task-modal-btn" class="btn btn-primary d-none" data-toggle="modal" data-target="#taskModal">
+        Launch task modal
+    </button>
+
+    <!-- Add New Category Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalHeader"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add A New Category</h5>
+                    <h5 class="modal-title" id="categoryModalHeader">Add A New Category</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -226,14 +231,49 @@
                             <label for="new-category-create">Category Name</label>
                             <input type="text" class="form-control" id="new-category-create">
                         </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalHeader"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalHeader">Edit Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
                         <div class="form-group">
-                            <label for="new-category-color">Category Color</label>
-                            <input type="color" class="form-control" id="new-category-color">
+                            <label for="modal-task-title">Task Title</label>
+                            <input type="text" class="form-control" id="modal-task-title">
                         </div>
+                        <div class="form-group">
+                            <label for="modal-task-date">Due Date</label>
+                            <input type="date" class="form-control" id="modal-task-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-categoryInput">Category</label>
+                            <select class="custom-select" id="edit-categoryInput">
+                                <option selected disabled value="">Choose...</option>
+                                <option>General</option>
+                                <option>Add New Category</option>
+                            </select>
+                        </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="save-edit-btn">Save changes</button>
                 </div>
             </div>
         </div>
@@ -245,17 +285,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-        <script src="js/members.js"></script>
+    <script src="moment/moment.min.js"></script>
+    <script src="js/members.js"></script>
     <script type="text/javascript">
-        let newCatBtn = $('#categoryInput');
-        console.log(newCatBtn)
-        newCatBtn.on('change', (event) => {
-            if (newCatBtn.val() === 'Add New Category') {
-                console.log('you clicked me');
-                $('#modal-btn').click();
-            }
-            newCatBtn.append('<option selected>Exercise</option>');
-        });
 
         $('#GET').on('click', () => {
             $.get('/api/user_data').then(data => {
