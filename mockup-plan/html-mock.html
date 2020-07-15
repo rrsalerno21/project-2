@@ -290,34 +290,24 @@
         crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
-      
+
     <!-- Custom Clock Script -->
     <script type="text/javascript">
 
-    //clock js
-    const clock = document.getElementById('clock');
+        //clock js
+        const clock = document.getElementById('clock');
 
-    function updateTime() {
-        const time = moment().format("hh:mmA");
-    
-        clock.textContent = time;
-    }
+        function updateTime() {
+            const time = moment().format("hh:mmA");
+        
+            clock.textContent = time;
+        }
 
-    updateTime();
-    setInterval(updateTime, 1000);
-        ////////////////////////////////////////
-            let newCatBtn = $('#categoryInput');
-            console.log(newCatBtn)
-            newCatBtn.on('change', (event) => {
-                if (newCatBtn.val() === 'Add New Category') {
-                   console.log('you clicked me');
-                    $('#modal-btn').click();
-                }
-                newCatBtn.append('<option selected>Exercise</option>');
-            });
+        updateTime();
+        setInterval(updateTime, 1000);
     </script>
     <script src="js/members.js"></script>
-   
+
     
 </body>
 
