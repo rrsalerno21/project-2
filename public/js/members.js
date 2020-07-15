@@ -115,12 +115,14 @@ $(document).ready(() => {
 
     // Format our data's time to just month and date for UI
     const formattedTime = moment.utc(taskDate).format("MM/DD");
+    const formattedFullTime = moment.utc(taskDate).format("YYYY-MM-DD");
 
-    // Create our date item
+    // Create our date item and add data-date attr with
     const dateItem = $("<td>")
       .attr({
         class: "task-date",
-        scope: "row"
+        scope: "row",
+        "data-date": formattedFullTime
       })
       .text(formattedTime);
 
@@ -388,7 +390,7 @@ $(document).ready(() => {
       .parent();
     const dataId = selectedRow.data("id");
     const taskComplete = selectedRow.data("complete");
-    const taskDate = selectedRow.children(".task-date").text();
+    const taskDate = selectedRow.children(".task-date").data("date");
     const taskTitle = selectedRow.children(".task-title").text();
     const taskCategory = selectedRow.children(".task-category").text();
 
