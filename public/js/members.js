@@ -318,7 +318,7 @@ $(document).ready(() => {
       // empty the value from any previous use
       $("#new-category-create").val("");
       $("#cat-modal-btn").click();
-      $("#new-category-create").focus();
+      newCatBtn.val("");
     }
   }
 
@@ -431,7 +431,7 @@ $(document).ready(() => {
     }
   }
 
-  function addNewCategory() {
+  async function addNewCategory() {
     acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
     const newCatVal = $("#new-category-create").val();
 
@@ -455,8 +455,19 @@ $(document).ready(() => {
       .attr("selected", "")
       .text(newCatVal);
 
+    // render the categories once more to remove any previously made categories
+    await renderInputTasks();
+
+    // remove the choice option
+    $("#categoryInput option")
+      .first()
+      .remove();
+
+    // add our new category to the category list
     $("#categoryInput").prepend(newCatOption);
-    $("#close-cat-model").click();
+
+    // close our category modal
+    $("#close-cat-modal").click();
   }
 
   // HELPER FUNCTIONS
