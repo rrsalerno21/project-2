@@ -179,6 +179,7 @@ $(document).ready(() => {
     }).then(data => {
       console.log(data);
       renderTasks();
+      renderInputTasks();
     });
   }
 
