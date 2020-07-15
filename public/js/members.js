@@ -9,6 +9,7 @@ $(document).ready(() => {
   $(document).on("click", ".edit-task-btn", openEditModal);
   $("#save-edit-btn").on("click", saveEdit);
   $("#categoryInput").on("change", openCategoryModal);
+  $("#add-task-btn").on("click", addTask);
 
   // Function to render the task list
   function renderTasks() {
@@ -275,6 +276,7 @@ $(document).ready(() => {
         console.log(data);
         $("#edit-modal-close").click();
         renderTasks();
+        renderInputTasks();
       })
       .catch(err => console.log(err));
   }
@@ -338,6 +340,36 @@ $(document).ready(() => {
       throw err;
     }
   }
+
+  async function addTask() {
+    const taskInput = $("#taskInput").val(),
+      taskDate = $("#dateInput").val(),
+      taskCategory = $("#categoryInput").val();
+
+    console.log(taskDate);
+
+    try {
+      const userData = await $.get("/api/user_data");
+
+      const newTask = await $.post("/api/create", {
+        task: taskInput,
+        due_date: taskDate,
+        category: taskCategory,
+        complete: false,
+        UserId: userData[0].UserId
+      });
+
+      console.log(newTask);
+
+      renderTasks();
+      renderInputTasks();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // HELPER FUNCTIONS
+  // ===================
 
   function removeDupes(arr) {
     bubbleSort(arr);
