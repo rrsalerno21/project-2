@@ -10,6 +10,7 @@ $(document).ready(() => {
   $("#save-edit-btn").on("click", saveEdit);
   $("#categoryInput").on("change", openCategoryModal);
   $("#add-task-btn").on("click", addTask);
+  $("#save-new-category").on("click", addNewCategory);
 
   // Function to render the task list
   function renderTasks() {
@@ -290,6 +291,9 @@ $(document).ready(() => {
   }
 
   async function renderInputTasks() {
+    // clear Task input field
+    $("#taskInput").val("");
+
     // set current date in date field
     $("#dateInput").val(moment().format("YYYY-MM-DD"));
 
@@ -366,6 +370,19 @@ $(document).ready(() => {
     } catch (error) {
       throw error;
     }
+  }
+
+  function addNewCategory() {
+    const newCatVal = $("#new-category-create").val();
+
+    console.log(newCatVal);
+
+    const newCatOption = $("<option>")
+      .attr("selected", "")
+      .text(newCatVal);
+
+    $("#categoryInput").prepend(newCatOption);
+    $("#close-cat-model").click();
   }
 
   // HELPER FUNCTIONS
