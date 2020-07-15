@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/clock.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -22,10 +23,12 @@
     </div>
 
         <div class="row">
+
             <div class="col-sm-3 border text-white pb-3" style="height: auto; background-color: #4A6AEE;" id="sidebar">
                 <div class="text-center">
                     <img src="/fmnlogo.png">
                 </div>
+                <div id="clock"></div>
                 <div id="form" class="h-50 shadow m-3 p-3 text-secondary bg-light rounded">
                     <p class="h4" style="font-family: 'Bebas Neue', cursive;">Add your Tasks</p>
                     <form>
@@ -285,52 +288,36 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-    <script src="moment/moment.min.js"></script>
-    <script src="js/members.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+      
+    <!-- Custom Clock Script -->
     <script type="text/javascript">
 
-        $('#GET').on('click', () => {
-            $.get('/api/user_data').then(data => {
-                console.log(data)
-            });
-        });
+    //clock js
+    const clock = document.getElementById('clock');
 
-        $('#POST').on('click', () => {
-            $.post('/api/create', {
-                task: "browser posted task",
-                due_date: "2020-07-10",
-                due_date_time: "9:00:00",
-                category: "General",
-                UserId: 1
-            }).then(data => {
-                console.log(data)
-            });
-        });
+    function updateTime() {
+        const time = moment().format("hh:mmA");
+    
+        clock.textContent = time;
+    }
 
-        $('#PUT').on('click', () => {
-            $.ajax({
-                url: '/api/edit',
-                method: 'PUT',
-                data: {
-                    task: 'Editing my post',
-                    due_date: "2020-07-22",
-                    due_date_time: "20:00:00",
-                    category: "New Cat",
-                    id: 11
+    updateTime();
+    setInterval(updateTime, 1000);
+        ////////////////////////////////////////
+            let newCatBtn = $('#categoryInput');
+            console.log(newCatBtn)
+            newCatBtn.on('change', (event) => {
+                if (newCatBtn.val() === 'Add New Category') {
+                   console.log('you clicked me');
+                    $('#modal-btn').click();
                 }
-            }).then(response => console.log(response));
-        });
-
-        $('#DELETE').on('click', () => {
-            $.ajax({
-                url:'/api/delete-task',
-                method: 'DELETE',
-                data:{
-                    id: 10
-                }
-            }).then(res => console.log(res));
-        })
+                newCatBtn.append('<option selected>Exercise</option>');
+            });
     </script>
+    <script src="js/members.js"></script>
+   
     
 </body>
 
