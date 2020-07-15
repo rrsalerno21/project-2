@@ -50,6 +50,13 @@
                             <button type="button" class="btn btn-primary mt-4" id="add-task-btn">Add Task</button>
                         </div>
                     </form>
+
+                    <!-- Alert section from BS -->
+                    <div style="display: none" id="add-task-alert" class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span> <span class="msg"></span>
+                    </div>
+
                 </div>
                 <div id="covid" class="bg-secondary text-white p-3 shadow rounded h-auto m-3">
                     <p class="h4" style="font-family: 'Bebas Neue', cursive;">COVID UPDATE</p>
@@ -234,6 +241,13 @@
                             <label for="new-category-create">Category Name</label>
                             <input type="text" class="form-control" id="new-category-create">
                         </div>
+                    </form>
+
+                    <!-- Alert section from BS for New Category Name Modal -->
+                    <div style="display: none" id="add-category-alert" class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span> <span class="msg"></span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="close-cat-model" data-dismiss="modal">Cancel</button>
@@ -272,7 +286,13 @@
                                 <option>Add New Category</option>
                             </select>
                         </div>
+                    </form>
 
+                    <!-- Alert section from BS for Edit Task Modal -->
+                    <div style="display: none" id="edit-task-alert" class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span> <span class="msg"></span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

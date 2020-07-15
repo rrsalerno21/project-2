@@ -7,6 +7,7 @@ $(document).ready(() => {
 
   // When the signup button is clicked, we validate the email and password and state are not blank
   signUpForm.on("submit", event => {
+    const acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
     event.preventDefault();
 
     const userData = {
@@ -22,6 +23,15 @@ $(document).ready(() => {
       $("#alert").fadeIn(500);
       return;
     }
+
+    if (acceptableCharacters.test(userData.password)) {
+      $("#alert .msg").text(
+        "Unnacceptable characters found in your password. \n (Only accepts alphanumeric and .'?!,@$#-*_ characters)"
+      );
+      $("#alert").fadeIn(500);
+      return;
+    }
+
     // If we have an email and password, run the signUpUser function
     signUpUser(userData.email, userData.password, userData.state);
     emailInput.val("");

@@ -184,6 +184,8 @@ $(document).ready(() => {
   }
 
   async function openEditModal() {
+    // clear error message if already used
+    $("#edit-task-alert").fadeOut(100);
     const selectedRow = $(this)
       .parent()
       .parent();
@@ -259,9 +261,33 @@ $(document).ready(() => {
       modalTaskDate = $("#modal-task-date").val(),
       modalCategory = $("#edit-categoryInput").val(),
       modalTaskComplete = $("#save-edit-btn").data("complete"),
-      modalTaskId = $("#save-edit-btn").data("id");
+      modalTaskId = $("#save-edit-btn").data("id"),
+      acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
 
     console.log(modalTaskTitle, modalTaskDate, modalCategory);
+
+    if (!modalTaskTitle || !modalTaskDate || !modalCategory) {
+      $("#edit-task-alert .msg").text(
+        "Please provide a task Name, Date, and Category to save your edit."
+      );
+      $("#edit-task-alert").fadeIn(500);
+      return;
+    }
+
+    // check for unnacceptable characters
+    if (
+      acceptableCharacters.test(modalTaskTitle) ||
+      acceptableCharacters.test(modalCategory)
+    ) {
+      $("#edit-task-alert .msg").text(
+        "Unnacceptable characters found in your inputs. \n (Only accepts alphanumeric and .'?!,@$#-*_ characters)"
+      );
+      $("#edit-task-alert").fadeIn(500);
+      $("#modal-task-title").focus();
+      return;
+    }
+
+    $("#edit-task-alert").fadeOut(250);
 
     $.ajax({
       url: "/api/edit",
@@ -284,10 +310,15 @@ $(document).ready(() => {
   }
 
   function openCategoryModal() {
+    // remove error message if previously used
+    $("#add-category-alert").fadeOut(100);
     const newCatBtn = $("#categoryInput");
     if (newCatBtn.val() === "Add New Category") {
       console.log("you clicked me");
+      // empty the value from any previous use
+      $("#new-category-create").val("");
       $("#cat-modal-btn").click();
+      $("#new-category-create").focus();
     }
   }
 
@@ -349,9 +380,32 @@ $(document).ready(() => {
   async function addTask() {
     const taskInput = $("#taskInput").val(),
       taskDate = $("#dateInput").val(),
-      taskCategory = $("#categoryInput").val();
+      taskCategory = $("#categoryInput").val(),
+      acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
 
-    console.log(taskDate);
+    // check for input validation
+    if (!taskInput || !taskDate || !taskCategory) {
+      $("#add-task-alert .msg").text(
+        "Please provide a task Name, Date, and Category."
+      );
+      $("#add-task-alert").fadeIn(500);
+      return;
+    }
+
+    // check for unnacceptable characters
+    if (
+      acceptableCharacters.test(taskInput) ||
+      acceptableCharacters.test(taskCategory)
+    ) {
+      $("#add-task-alert .msg").text(
+        "Unnacceptable characters found in your inputs. \n (Only accepts alphanumeric and .'?!,@$#-*_ characters)"
+      );
+      $("#add-task-alert").fadeIn(500);
+      $("#taskInput").focus();
+      return;
+    }
+
+    $("#add-task-alert").fadeOut(250);
 
     try {
       const userData = await $.get("/api/user_data");
@@ -369,14 +423,33 @@ $(document).ready(() => {
       renderTasks();
       renderInputTasks();
     } catch (error) {
+      $("#add-task-alert .msg").text(
+        "Something went wrong.  Check your internet connection and try again"
+      );
+      $("#add-task-alert").fadeIn(500);
       throw error;
     }
   }
 
   function addNewCategory() {
+    acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
     const newCatVal = $("#new-category-create").val();
 
-    console.log(newCatVal);
+    if (!newCatVal) {
+      $("#add-category-alert .msg").text("Please provide a new category name.");
+      $("#add-category-alert").fadeIn(500);
+      return;
+    }
+
+    if (acceptableCharacters.test(newCatVal)) {
+      $("#add-category-alert .msg").text(
+        "Unnacceptable characters found in your category input. (Only accepts alphanumeric and .'?!,@$#-*_ characters)"
+      );
+      $("#add-category-alert").fadeIn(500);
+      return;
+    }
+
+    $("#add-category-alert").fadeOut(500);
 
     const newCatOption = $("<option>")
       .attr("selected", "")
