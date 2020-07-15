@@ -7,7 +7,15 @@ form.login {
   border-color: #3F3F43 !important;
   font-family: 'Abel', sans-serif !important;
 }
-td
+.btn-secondary { 
+  background-color:  #4A6AEE !important;
+  border-color:  #4A6AEE !important;
+  font-family: 'Abel', sans-serif !important;
+}
+td,
+#categoryModalHeader,
+#categoryInput,
+option
  {
   font-family: 'Abel', sans-serif !important;
 }
@@ -18,7 +26,8 @@ h1,
   font-family: 'Bebas Neue', cursive !important; 
 }
 label,
-.form-control {
+.form-control,
+th {
   font-family: 'Bebas Neue', cursive;
   font-size: medium;
 }
