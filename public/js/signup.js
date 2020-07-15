@@ -18,7 +18,8 @@ $(document).ready(() => {
     
 
     if (!userData.email || !userData.password || !userData.state) {
-      alert("Please provide an email address, password, and state location")
+      $("#alert .msg").text("Please provide an email address, password, and state location");
+      $("#alert").fadeIn(500);
       return;
     }
     // If we have an email and password, run the signUpUser function
@@ -45,7 +46,7 @@ $(document).ready(() => {
 
   function handleLoginErr(err) {
     console.log(err);
-    $("#alert .msg").text(err.responseJSON);
+    $("#alert .msg").text(err.responseJSON.original.sqlMessage);
     $("#alert").fadeIn(500);
   }
 });
