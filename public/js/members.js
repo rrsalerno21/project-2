@@ -1,6 +1,7 @@
 $(document).ready(() => {
   // Render on load
   renderTasks();
+  renderInputTasks();
 
   // Event Listeners
   $(document).on("click", ".complete-task-btn", updateTaskStatus);
@@ -283,6 +284,58 @@ $(document).ready(() => {
     if (newCatBtn.val() === "Add New Category") {
       console.log("you clicked me");
       $("#cat-modal-btn").click();
+    }
+  }
+
+  async function renderInputTasks() {
+    // set current date in date field
+    $("#dateInput").val(moment().format("YYYY-MM-DD"));
+
+    // get category list
+    try {
+      const userData = await $.ajax({
+        url: "/api/user_data",
+        method: "GET"
+      });
+
+      // declare array for categories
+      const catArray = [];
+
+      // loop through userData
+      for (item of userData) {
+        catArray.push(item.category);
+      }
+
+      // remove duplicate categories from list
+      removeDupes(catArray);
+
+      // handle the category section
+      // --first empty the select element of options
+      $("#categoryInput").empty();
+
+      // --then iterate throw the catArray to append options
+      // --while selecting the current category
+      const disabledChoice = $("<option>")
+        .attr({
+          selected: "",
+          disabled: "",
+          value: ""
+        })
+        .text("Choose");
+
+      const newCatChoice = $("<option>").text("Add New Category");
+
+      $("#categoryInput").append(disabledChoice);
+
+      let newOption;
+      for (cat of catArray) {
+        newOption = $("<option>").text(cat);
+        $("#categoryInput").append(newOption);
+      }
+
+      $("#categoryInput").append(newCatChoice);
+    } catch (err) {
+      throw err;
     }
   }
 
