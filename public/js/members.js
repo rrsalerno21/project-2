@@ -180,7 +180,7 @@ $(document).ready(() => {
     }).then(data => {
       console.log(data);
       renderTasks();
-      renderInputTasks();
+      renderCategoryList();
     });
   }
 
@@ -325,7 +325,7 @@ $(document).ready(() => {
     }
   }
 
-  async function renderInputTasks() {
+  function renderInputTasks() {
     // clear Task input field
     $("#taskInput").val("");
 
@@ -333,53 +333,7 @@ $(document).ready(() => {
     $("#dateInput").val(moment().format("YYYY-MM-DD"));
 
     // get category list
-    try {
-      const userData = await $.ajax({
-        url: "/api/user_data",
-        method: "GET"
-      });
-
-      const taskData = userData.tasks;
-
-      // declare array for categories
-      const catArray = [];
-
-      // loop through userData
-      for (item of taskData) {
-        catArray.push(item.category);
-      }
-
-      // remove duplicate categories from list
-      removeDupes(catArray);
-
-      // handle the category section
-      // --first empty the select element of options
-      $("#categoryInput").empty();
-
-      // --then iterate throw the catArray to append options
-      // --while selecting the current category
-      const disabledChoice = $("<option>")
-        .attr({
-          selected: "",
-          disabled: "",
-          value: ""
-        })
-        .text("Choose");
-
-      const newCatChoice = $("<option>").text("Add New Category");
-
-      $("#categoryInput").append(disabledChoice);
-
-      let newOption;
-      for (cat of catArray) {
-        newOption = $("<option>").text(cat);
-        $("#categoryInput").append(newOption);
-      }
-
-      $("#categoryInput").append(newCatChoice);
-    } catch (err) {
-      throw err;
-    }
+    renderCategoryList();
   }
 
   async function addTask() {
@@ -461,7 +415,7 @@ $(document).ready(() => {
       .text(newCatVal);
 
     // render the categories once more to remove any previously made categories
-    await renderInputTasks();
+    await renderCategoryList();
 
     // remove the choice option
     $("#categoryInput option")
@@ -473,6 +427,57 @@ $(document).ready(() => {
 
     // close our category modal
     $("#close-cat-modal").click();
+  }
+
+  async function renderCategoryList() {
+    // get category list
+    try {
+      const userData = await $.ajax({
+        url: "/api/user_data",
+        method: "GET"
+      });
+
+      const taskData = userData.tasks;
+
+      // declare array for categories
+      const catArray = [];
+
+      // loop through userData
+      for (item of taskData) {
+        catArray.push(item.category);
+      }
+
+      // remove duplicate categories from list
+      removeDupes(catArray);
+
+      // handle the category section
+      // --first empty the select element of options
+      $("#categoryInput").empty();
+
+      // --then iterate throw the catArray to append options
+      // --while selecting the current category
+      const disabledChoice = $("<option>")
+        .attr({
+          selected: "",
+          disabled: "",
+          value: ""
+        })
+        .text("Choose");
+
+      const newCatChoice = $("<option>").text("Add New Category");
+
+      $("#categoryInput").append(disabledChoice);
+
+      let newOption;
+      for (cat of catArray) {
+        newOption = $("<option>").text(cat);
+        $("#categoryInput").append(newOption);
+      }
+
+      $("#categoryInput").append(newCatChoice);
+    } catch (err) {
+      throw err;
+    }
   }
 
   // HELPER FUNCTIONS
