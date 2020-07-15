@@ -137,8 +137,10 @@ $(document).ready(() => {
 
     if (taskComplete) {
       updatedTaskStatus = false;
+      selectedRow.attr("data-complete", "false");
     } else {
       updatedTaskStatus = true;
+      selectedRow.attr("data-complete", "true");
     }
 
     $.ajax({
@@ -151,7 +153,10 @@ $(document).ready(() => {
         complete: updatedTaskStatus,
         id: dataId
       }
-    }).then(data => console.log(`${data}`));
+    }).then(data => {
+      console.log(`${data}`);
+      renderTasks();
+    });
   }
   // Function to delete a task
   function deleteTask() {
@@ -178,6 +183,8 @@ $(document).ready(() => {
     const selectedRow = $(this)
       .parent()
       .parent();
+    const taskId = selectedRow.data("id");
+    const taskComplete = selectedRow.data("complete");
     const taskTitle = selectedRow.children(".task-title").text();
     const taskCategory = selectedRow.children(".task-category").text();
 
@@ -211,11 +218,11 @@ $(document).ready(() => {
       $("#modal-task-date").val(formattedDate);
 
       // handle the category section
-      // first empty the select element of options
+      // --first empty the select element of options
       $("#edit-categoryInput").empty();
 
-      // then iterate throw the catArray to append options
-      // while selecting the current category
+      // --then iterate throw the catArray to append options
+      // --while selecting the current category
       let selectedCat;
 
       for (cat of catArray) {
@@ -229,6 +236,13 @@ $(document).ready(() => {
           $("#edit-categoryInput").append(selectedCat);
         }
       }
+
+      // set the id onto the save button
+      $("#save-edit-btn").attr({
+        "data-id": taskId,
+        "data-complete": taskComplete
+      });
+
       // open the modal
       $("#task-modal-btn").click();
     } catch (error) {
@@ -239,9 +253,29 @@ $(document).ready(() => {
   function saveEdit() {
     const modalTaskTitle = $("#modal-task-title").val(),
       modalTaskDate = $("#modal-task-date").val(),
-      modalCategory = $("#edit-categoryInput").val();
+      modalCategory = $("#edit-categoryInput").val(),
+      modalTaskComplete = $("#save-edit-btn").data("complete"),
+      modalTaskId = $("#save-edit-btn").data("id");
 
     console.log(modalTaskTitle, modalTaskDate, modalCategory);
+
+    $.ajax({
+      url: "/api/edit",
+      method: "PUT",
+      data: {
+        task: modalTaskTitle,
+        due_date: modalTaskDate,
+        category: modalCategory,
+        complete: modalTaskComplete,
+        id: modalTaskId
+      }
+    })
+      .then(data => {
+        console.log(data);
+        $("#edit-modal-close").click();
+        renderTasks();
+      })
+      .catch(err => console.log(err));
   }
 
   function openCategoryModal() {
