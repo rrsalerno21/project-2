@@ -30,8 +30,8 @@
                     <p class="h4" style="font-family: 'Bebas Neue', cursive;">Add your Tasks</p>
                     <form>
                         <div class="form-group">
-                            <label for="formGroupExampleInput">Task</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput">
+                            <label for="taskInput">Task</label>
+                            <input type="text" class="form-control" id="taskInput">
                         </div>
                         <div class="form-group">
                             <label for="dateInput">Date</label>
@@ -44,7 +44,7 @@
                                 <option>General</option>
                                 <option>Add New Category</option>
                             </select>
-                            <button type="button" class="btn btn-primary mt-4">Add Task</button>
+                            <button type="button" class="btn btn-primary mt-4" id="add-task-btn">Add Task</button>
                         </div>
                     </form>
                 </div>
@@ -247,7 +247,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="taskModalHeader">Edit Task</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" id="edit-modal-close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

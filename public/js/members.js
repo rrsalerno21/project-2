@@ -1,6 +1,7 @@
 $(document).ready(() => {
   // Render on load
   renderTasks();
+  renderInputTasks();
 
   // Event Listeners
   $(document).on("click", ".complete-task-btn", updateTaskStatus);
@@ -8,6 +9,7 @@ $(document).ready(() => {
   $(document).on("click", ".edit-task-btn", openEditModal);
   $("#save-edit-btn").on("click", saveEdit);
   $("#categoryInput").on("change", openCategoryModal);
+  $("#add-task-btn").on("click", addTask);
 
   // Function to render the task list
   function renderTasks() {
@@ -137,8 +139,10 @@ $(document).ready(() => {
 
     if (taskComplete) {
       updatedTaskStatus = false;
+      selectedRow.attr("data-complete", "false");
     } else {
       updatedTaskStatus = true;
+      selectedRow.attr("data-complete", "true");
     }
 
     $.ajax({
@@ -151,7 +155,10 @@ $(document).ready(() => {
         complete: updatedTaskStatus,
         id: dataId
       }
-    }).then(data => console.log(`${data}`));
+    }).then(data => {
+      console.log(`${data}`);
+      renderTasks();
+    });
   }
   // Function to delete a task
   function deleteTask() {
@@ -178,6 +185,8 @@ $(document).ready(() => {
     const selectedRow = $(this)
       .parent()
       .parent();
+    const taskId = selectedRow.data("id");
+    const taskComplete = selectedRow.data("complete");
     const taskTitle = selectedRow.children(".task-title").text();
     const taskCategory = selectedRow.children(".task-category").text();
 
@@ -211,11 +220,11 @@ $(document).ready(() => {
       $("#modal-task-date").val(formattedDate);
 
       // handle the category section
-      // first empty the select element of options
+      // --first empty the select element of options
       $("#edit-categoryInput").empty();
 
-      // then iterate throw the catArray to append options
-      // while selecting the current category
+      // --then iterate throw the catArray to append options
+      // --while selecting the current category
       let selectedCat;
 
       for (cat of catArray) {
@@ -229,6 +238,13 @@ $(document).ready(() => {
           $("#edit-categoryInput").append(selectedCat);
         }
       }
+
+      // set the id onto the save button
+      $("#save-edit-btn").attr({
+        "data-id": taskId,
+        "data-complete": taskComplete
+      });
+
       // open the modal
       $("#task-modal-btn").click();
     } catch (error) {
@@ -239,9 +255,30 @@ $(document).ready(() => {
   function saveEdit() {
     const modalTaskTitle = $("#modal-task-title").val(),
       modalTaskDate = $("#modal-task-date").val(),
-      modalCategory = $("#edit-categoryInput").val();
+      modalCategory = $("#edit-categoryInput").val(),
+      modalTaskComplete = $("#save-edit-btn").data("complete"),
+      modalTaskId = $("#save-edit-btn").data("id");
 
     console.log(modalTaskTitle, modalTaskDate, modalCategory);
+
+    $.ajax({
+      url: "/api/edit",
+      method: "PUT",
+      data: {
+        task: modalTaskTitle,
+        due_date: modalTaskDate,
+        category: modalCategory,
+        complete: modalTaskComplete,
+        id: modalTaskId
+      }
+    })
+      .then(data => {
+        console.log(data);
+        $("#edit-modal-close").click();
+        renderTasks();
+        renderInputTasks();
+      })
+      .catch(err => console.log(err));
   }
 
   function openCategoryModal() {
@@ -251,6 +288,88 @@ $(document).ready(() => {
       $("#cat-modal-btn").click();
     }
   }
+
+  async function renderInputTasks() {
+    // set current date in date field
+    $("#dateInput").val(moment().format("YYYY-MM-DD"));
+
+    // get category list
+    try {
+      const userData = await $.ajax({
+        url: "/api/user_data",
+        method: "GET"
+      });
+
+      // declare array for categories
+      const catArray = [];
+
+      // loop through userData
+      for (item of userData) {
+        catArray.push(item.category);
+      }
+
+      // remove duplicate categories from list
+      removeDupes(catArray);
+
+      // handle the category section
+      // --first empty the select element of options
+      $("#categoryInput").empty();
+
+      // --then iterate throw the catArray to append options
+      // --while selecting the current category
+      const disabledChoice = $("<option>")
+        .attr({
+          selected: "",
+          disabled: "",
+          value: ""
+        })
+        .text("Choose");
+
+      const newCatChoice = $("<option>").text("Add New Category");
+
+      $("#categoryInput").append(disabledChoice);
+
+      let newOption;
+      for (cat of catArray) {
+        newOption = $("<option>").text(cat);
+        $("#categoryInput").append(newOption);
+      }
+
+      $("#categoryInput").append(newCatChoice);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async function addTask() {
+    const taskInput = $("#taskInput").val(),
+      taskDate = $("#dateInput").val(),
+      taskCategory = $("#categoryInput").val();
+
+    console.log(taskDate);
+
+    try {
+      const userData = await $.get("/api/user_data");
+
+      const newTask = await $.post("/api/create", {
+        task: taskInput,
+        due_date: taskDate,
+        category: taskCategory,
+        complete: false,
+        UserId: userData[0].UserId
+      });
+
+      console.log(newTask);
+
+      renderTasks();
+      renderInputTasks();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // HELPER FUNCTIONS
+  // ===================
 
   function removeDupes(arr) {
     bubbleSort(arr);
