@@ -1,5 +1,4 @@
 $(document).ready(() => {
-
   // jQuery Selectors
   const select = {
     // Rendered Tasks Div
