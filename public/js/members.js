@@ -59,7 +59,6 @@ $(document).ready(() => {
 
     // then get our user's data
     $.get("/api/user_data").then(response => {
-      console.log(response);
       const data = response.tasks;
 
       // then iterate through the data
