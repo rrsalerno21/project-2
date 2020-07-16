@@ -29,6 +29,9 @@ $(document).ready(() => {
     editFormCloseModalBtn: $("#edit-modal-close"),
     editFormAlert: $("#edit-task-alert"),
     editFormAlertMsg: $("#edit-task-alert .msg"),
+    editFormCategoryDiv: $("#edit-category-div"),
+    editFormNewCategoryInput: $("#edit-form-new-category-input"),
+    editFormAddCatBtn: $("#edit-modal-add-cat-btn"),
     editTaskBtn: $("#save-edit-btn")
   };
 
@@ -44,6 +47,7 @@ $(document).ready(() => {
   $(document).on("click", ".complete-task-btn", updateTaskStatus);
   $(document).on("click", ".delete-task-btn", deleteTask);
   $(document).on("click", ".edit-task-btn", openEditModal);
+  select.editFormAddCatBtn.on("click", editFormAddNewCategory);
   select.editTaskBtn.on("click", saveEdit);
 
   // RENDERING FUNCTIONS
@@ -464,6 +468,13 @@ $(document).ready(() => {
     // Clear error message if already used
     select.editFormAlert.fadeOut(100);
 
+    // Make sure the "Add New Category button" is displayed
+    if (select.editFormCategoryInput.hasClass("d-none")) {
+      select.editFormCategoryInput.attr("class", "custom-select");
+      select.editFormNewCategoryInput.attr("class", "form-control d-none");
+      select.editFormAddCatBtn.text("- Add New Category -");
+    }
+
     // Declare the selected row, it's data attributes, and row's values
     const selectedRow = $(this)
       .parent()
@@ -537,15 +548,45 @@ $(document).ready(() => {
     }
   }
 
+  function editFormAddNewCategory() {
+    // toggle display none class on inputs
+    select.editFormCategoryInput.toggleClass("d-none");
+    select.editFormNewCategoryInput.toggleClass("d-none");
+
+    // if the existing category input is hidden, change the
+    // button text and focus on the new cat input
+    if (select.editFormCategoryInput.hasClass("d-none")) {
+      select.editFormAddCatBtn.text("- Pick an Existing Category -");
+      select.editFormNewCategoryInput.val("");
+      select.editFormNewCategoryInput.focus();
+    }
+
+    // if the new category input is hidden, change the
+    // button text and focus on the existing cat input
+    if (select.editFormNewCategoryInput.hasClass("d-none")) {
+      select.editFormAddCatBtn.text("- Add New Category -");
+      select.editFormCategoryInput.focus();
+    }
+  }
+
   // Function to edit a task within the edit modal
   function saveEdit() {
     // Declare input values and regex object for acceptable characters
     const modalTaskTitle = select.editFormTaskInput.val(),
       modalTaskDate = select.editFormDateInput.val(),
-      modalCategory = select.editFormCategoryInput.val(),
       modalTaskComplete = select.editTaskBtn.data("complete"),
       modalTaskId = select.editTaskBtn.data("id"),
       acceptableCharacters = /[^A-Za-z0-9 .'?!,@$*#\-_\n\r]/;
+
+    // Check to see which category option is currently active
+    let modalCategory;
+    if (select.editFormNewCategoryInput.hasClass("d-none")) {
+      modalCategory = select.editFormCategoryInput.val();
+    }
+
+    if (select.editFormCategoryInput.hasClass("d-none")) {
+      modalCategory = select.editFormNewCategoryInput.val();
+    }
 
     // Validate for empty inputs
     if (!modalTaskTitle || !modalTaskDate || !modalCategory) {
