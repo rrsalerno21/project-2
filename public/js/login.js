@@ -13,6 +13,10 @@ $(document).ready(() => {
     };
 
     if (!userData.email || !userData.password) {
+      $("#alert .msg").text(
+        "Please provide your email address and password to log in"
+      );
+      $("#alert").fadeIn(500);
       return;
     }
 
@@ -33,6 +37,9 @@ $(document).ready(() => {
         // If there's an error, log the error
       })
       .catch(err => {
+        alert(
+          "Something went wrong... check your internet connection and try again in a minute"
+        );
         console.log(err);
       });
   }

@@ -20,7 +20,8 @@ module.exports = function(app) {
   app.post("/api/signup", (req, res) => {
     db.User.create({
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      state: req.body.state
     })
       .then(() => {
         res.redirect(307, "/api/login");
@@ -49,7 +50,13 @@ module.exports = function(app) {
         },
         include: db.User.email
       })
-        .then(tasks => res.status(200).json(tasks))
+        .then(tasks => {
+          const user_data = {
+            tasks: tasks,
+            userID: req.user.id
+          };
+          res.status(200).json(user_data);
+        })
         .catch(err => res.status(404).send(err));
     }
   });
