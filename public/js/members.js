@@ -1,6 +1,6 @@
 $(document).ready(() => {
   // Render on load
-  //renderTasks();
+  renderTasks();
   renderInputTasks();
 
   // Event Listeners
