@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="stylesheets/clock.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&family=Roboto&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/793ed79a3c.js" crossorigin="anonymous"></script>
@@ -18,7 +18,7 @@
 <body>
     <div class="row" id="menu-bar">
             <div class="container text-right p-1">
-        <button type="button" class="btn btn-primary">Logout</button>
+        <button type="button" class="btn btn-primary" onclick="window.location = `/logout`">Logout</button>
         </div>
     </div>
 
@@ -34,7 +34,7 @@
                     <form>
                         <div class="form-group">
                             <label for="taskInput">Task</label>
-                            <input type="text" class="form-control" id="taskInput">
+                            <input type="text" class="form-control" id="taskInput" style="font-family: 'Roboto', sans-serif;">
                         </div>
                         <div class="form-group">
                             <label for="dateInput">Date</label>
@@ -139,7 +139,7 @@
                 </div>
 
 
-                <div class="row h-100\\\" id="arrow-div">
+                <div class="row h-100\\\ d-none" id="arrow-div">
                     <div class="container text-right m-3">
                     <button type="button" class="btn btn-light">
                         <i class="fas fa-arrow-circle-left" id="left-arrow"></i>
@@ -272,7 +272,7 @@
                     <form>
                         <div class="form-group">
                             <label for="modal-task-title">Task Title</label>
-                            <input type="text" class="form-control" id="modal-task-title">
+                            <input type="text" class="form-control" id="modal-task-title" style="font-family: 'Roboto', sans-serif;">
                         </div>
                         <div class="form-group">
                             <label for="modal-task-date">Due Date</label>
