@@ -48,7 +48,8 @@ module.exports = function(app) {
         where: {
           userID: req.user.id
         },
-        include: db.User.email
+        include: db.User.email,
+        order: [["due_date"]]
       })
         .then(tasks => {
           const user_data = {
