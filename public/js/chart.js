@@ -1,12 +1,12 @@
-const state = document.getElementById("state");
-const submitbtn = document.querySelector("#search");
-const deletebtn = document.querySelector("#delete");
+const state = $("#state");
+const submitbtn = $("#search");
+const deletebtn = $("#delete");
 const stateRes = [];
 const positiveRes = [];
 
-submitbtn.addEventListener("click", () => {
+submitbtn.on("click", () => {
   const settings = {
-    url: "https://covidtracking.com/api/states?state=" + state.value,
+    url: "https://covidtracking.com/api/states?state=" + state.val(),
     method: "GET",
     "content-type": "applicatiion/json",
     accept: "application/json",
@@ -20,9 +20,9 @@ submitbtn.addEventListener("click", () => {
   });
 });
 
-deletebtn.addEventListener("click", () => {
+deletebtn.on("click", () => {
   const settings = {
-    url: "https://covidtracking.com/api/states?state=" + state.value,
+    url: "https://covidtracking.com/api/states?state=" + state.val(),
     method: "GET",
     "content-type": "applicatiion/json",
     accept: "application/json",
@@ -36,7 +36,24 @@ deletebtn.addEventListener("click", () => {
   });
 });
 
-createChart();
+function initChart() {
+  $.get("/api/user_data")
+    .then(data => {
+      // declare the state from the data response
+      const usersState = data.state.toLowerCase();
+
+      // set the current state value of the search bar to usersState
+      state.val(usersState);
+
+      // click the add button to create the chart
+      submitbtn.click();
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+initChart();
 
 function createChart() {
   const myChart = document.getElementById("myChart").getContext("2d");
