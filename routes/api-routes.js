@@ -53,7 +53,8 @@ module.exports = function(app) {
         .then(tasks => {
           const user_data = {
             tasks: tasks,
-            userID: req.user.id
+            userID: req.user.id,
+            state: req.user.state
           };
           res.status(200).json(user_data);
         })

@@ -159,7 +159,7 @@ $(document).ready(() => {
     const deleteButton = $("<button>")
       .attr({
         type: "button",
-        class: "btn btn-danger mt-3 delete-task-btn"
+        class: "btn btn-danger mt-3 mx-1 delete-task-btn"
       })
       // eslint-disable-next-line quotes
       .html(`<i class="fas fa-trash-alt"></i>`);

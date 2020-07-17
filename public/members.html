@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="stylesheets/clock.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&family=Roboto&display=swap"
+        rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/793ed79a3c.js" crossorigin="anonymous"></script>
@@ -17,145 +18,64 @@
 </head>
 
 <body>
+    <!-- Header background div w/ logout button-->
     <div class="row" id="menu-bar">
-            <div class="container text-right p-1">
-        <button type="button" class="btn btn-primary" onclick="window.location = `/logout`">Logout</button>
+        <div class="container text-right p-1">
+            <button type="button" class="btn btn-primary" onclick="window.location = `/logout`">Logout</button>
         </div>
     </div>
 
-        <div class="row">
+    <!-- Full Row Div containing all the main content -->
+    <main class="row" style="height: auto">
 
-            <div class="col-sm-3 border text-white pb-3" style="height: auto; background-color: #4A6AEE;" id="sidebar">
-                <div class="text-center">
-                    <img src="/fmnlogo.png" style="width: 200px;">
-                </div>
+        <!-- Sidebar Column Section -->
+        <section class="col-sm-3 border text-white pb-3" style="height: auto; background-color: #4A6AEE;" id="sidebar">
+            <!-- Logo Div -->
+            <div class="text-center">
+                <img src="/fmnlogo.png" alt="Forget Me Not Logo" style="width: 200px;">
+            </div>
+
+            <!-- Clock Div -->
+            <div class="d-flex justify-content-center m-2">
                 <div id="clock"></div>
-                <div id="form" class="h-50 shadow m-3 p-3 text-secondary bg-light rounded">
-                    <p class="h4" style="font-family: 'Bebas Neue', cursive;">Add your Tasks</p>
-                    <form>
-                        <div class="form-group">
-                            <label for="taskInput">Task</label>
-                            <input type="text" class="form-control" id="taskInput" style="font-family: 'Roboto', sans-serif;">
-                        </div>
-                        <div class="form-group">
-                            <label for="dateInput">Date</label>
-                            <input type="date" class="form-control" id="dateInput">
-                        </div>
-                        <div class="form-group">
-                            <label for="categoryInput">Category</label>
-                            <select class="custom-select" id="categoryInput">
-                                <option selected disabled value="">Choose...</option>
-                                <option>General</option>
-                                <option>Add New Category</option>
-                            </select>
-                            <button type="button" class="btn btn-primary mt-4" id="add-task-btn">Add Task</button>
-                        </div>
-                    </form>
+            </div>
 
-                    <!-- Alert section from BS -->
-                    <div style="display: none" id="add-task-alert" class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Error:</span> <span class="msg"></span>
+            <!-- Add Task Input Div -->
+            <div id="form" class="shadow m-3 p-3 text-secondary bg-light rounded">
+                <p class="h4" style="font-family: 'Bebas Neue', cursive;">Add your Tasks</p>
+                <form>
+                    <div class="form-group">
+                        <label for="taskInput">Task</label>
+                        <input type="text" class="form-control" id="taskInput"
+                            style="font-family: 'Roboto', sans-serif;">
                     </div>
+                    <div class="form-group">
+                        <label for="dateInput">Date</label>
+                        <input type="date" class="form-control" id="dateInput">
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryInput">Category</label>
+                        <select class="custom-select" id="categoryInput">
+                            <option selected disabled value="">Choose...</option>
+                            <option>General</option>
+                            <option>Add New Category</option>
+                        </select>
+                        <button type="button" class="btn btn-primary mt-4" id="add-task-btn">Add Task</button>
+                    </div>
+                </form>
 
-                </div>
-                <div id="covid" class="bg-secondary text-white p-3 shadow rounded h-auto m-3">
-                    <p class="h4" style="font-family: 'Bebas Neue', cursive;">COVID UPDATE</p>
-                    <p>The world is burning slowly while people scare quickly.</p>
+                <!-- Alert section from BS -->
+                <div style="display: none" id="add-task-alert" class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span> <span class="msg"></span>
                 </div>
             </div>
-            <div class="col-sm-9 border bg-light white  text-center" style="min-height: 800px">
 
-
-                <div class="row h-50 m-5 overflow-auto">
-                    <p class="h3" style="font-family: 'Bebas Neue', cursive;">Upcoming Tasks</p>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr></tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Task</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tasks-div">
-                            <tr data-id="1" data-complete="false">
-                                <td class="task-date" scope="row">7/06/20</td>
-                                <td class="task-title">Take out the trash</td>
-                                <td class="task-category">Home</td>
-                                <th>
-                                    <button type="button" class="btn btn-success mt-3 complete-task-btn" data-id="1"><i
-                                            class="fas fa-check-square"></i></button>
-                                    <button type="button" class="btn btn-danger mt-3 delete-task-btn"> <i
-                                            class="fas fa-trash-alt"></i></button>
-                                    <button type="button" class="btn btn-warning mt-3 edit-task-btn"><i
-                                            class="fas fa-pencil-alt"></i></i></button>
-                                </th>
-                            </tr>
-                            <tr>
-
-                                <td>7/06/20</td>
-                                <td>Run 6 miles</td>
-                                <td>Exercise</td>
-                                <th>
-                                    <button type="button" class="btn btn-success mt-3"><i
-                                            class="fas fa-check-square"></i></button>
-                                    <button type="button" class="btn btn-danger mt-3"> <i
-                                            class="fas fa-trash-alt"></i></button>
-                                    <button type="button" class="btn btn-warning mt-3"><i
-                                            class="fas fa-pencil-alt"></i></i></button>
-                                </th>
-                            </tr>
-                            <tr>
-
-                                <td>7/06/20</td>
-                                <td>Coding Homework</td>
-                                <td>Coding</td>
-                                <th>
-                                    <button type="button" class="btn btn-success mt-3"><i
-                                            class="fas fa-check-square"></i></button>
-                                    <button type="button" class="btn btn-danger mt-3"> <i
-                                            class="fas fa-trash-alt"></i></button>
-                                    <button type="button" class="btn btn-warning mt-3"><i
-                                            class="fas fa-pencil-alt"></i></i></button>
-                                </th>
-                            </tr>
-
-                            <tr>
-
-                                <td>7/06/20</td>
-                                <td>Coding Homework</td>
-                                <td>Coding</td>
-                                <th>
-                                    <button type="button" class="btn btn-success mt-3"><i
-                                            class="fas fa-check-square"></i></button>
-                                    <button type="button" class="btn btn-danger mt-3"> <i
-                                            class="fas fa-trash-alt"></i></button>
-                                    <button type="button" class="btn btn-warning mt-3"><i
-                                            class="fas fa-pencil-alt"></i></i></button>
-                                </th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-                <div class="row h-100\\\ d-none" id="arrow-div">
-                    <div class="container text-right m-3">
-                    <button type="button" class="btn btn-light">
-                        <i class="fas fa-arrow-circle-left" id="left-arrow"></i>
-                    </button>
-                    <button type="button" class="btn btn-light">
-                        <i class="fas fa-arrow-circle-right"
-                            id="right-arrow"></i>
-                        </button>
-                        </div>
-                </div>
-
-                <div class="chart-container">
-                    <canvas id="myChart"></canvas>
-                    <div class="searh-txt">
-                      <select class="form-control" id="state" name="state">
+            <!-- Covid Tracking Div -->
+            <div class="row overflow-auto px-3 m-3 shadow text-secondary bg-light rounded">
+                <p class="h4 my-3" style="font-family: 'Bebas Neue', cursive;">COVID TRACKING</p>
+                <div class="search-txt container mb-2 pl-0">
+                    <select class="form-control mx-1" id="state" name="state">
                         <option value="" selected disabled>Choose Your State</option>
                         <option value="ak">Alaska</option>
                         <option value="al">Alabama</option>
@@ -209,139 +129,169 @@
                         <option value="wi">Wisconsin</option>
                         <option value="wv">West Virginia</option>
                         <option value="wy">Wyoming</option>
-                      </select>
-                      <input type="submit" id ="search" value="add">
-                      <input type="submit" id ="delete" value="delete">
-                    </div>
-                  </div>
+                    </select>
+                    <input type="submit" id="search" value="Add State" class="btn btn-primary m-1">
+                    <input type="submit" id="delete" value="Delete State" class="btn btn-primary m-1">
+                </div>
+                <div class="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>
 
             </div>
-        </div>
-    </div>
-   
-</div>
-<div class="row" id="menu-bar">
-    <div class="container text-right p-4">
-</div>
 
+        </section>
 
-    <!-- Category Button trigger modal -->
-    <button type="button" id="cat-modal-btn" class="btn btn-primary d-none" data-toggle="modal" data-target="#categoryModal">
-        Launch category modal
-    </button>
+        <!-- Tasks Column Section -->
+        <section class="col-sm-9 border bg-light white text-center" style="height: auto">
 
-    <!-- Task Button trigger modal -->
-    <button type="button" id="task-modal-btn" class="btn btn-primary d-none" data-toggle="modal" data-target="#taskModal">
-        Launch task modal
-    </button>
-
-    <!-- Add New Category Modal -->
-    <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalHeader"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="categoryModalHeader">Add A New Category</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="new-category-create">Category Name</label>
-                            <input type="text" class="form-control" id="new-category-create">
-                        </div>
-                    </form>
-
-                    <!-- Alert section from BS for New Category Name Modal -->
-                    <div style="display: none" id="add-category-alert" class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Error:</span> <span class="msg"></span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="close-cat-modal" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-secondary" id="save-new-category">Add Category</button>
-                </div>
+            <p class="h3 mx-5 my-3 text-left" style="font-family: 'Bebas Neue', cursive;">Upcoming Tasks</p>
+            <div class="row mx-5 my-3 overflow-auto">
+                <!-- Tasks Table -->
+                <table class="table table-hover">
+                    <thead>
+                        <tr></tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Task</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <!-- Append table row items to the tasks-div -->
+                    <tbody id="tasks-div">
+                    </tbody>
+                </table>
             </div>
-        </div>
+
+            
+
+        </section>
+    </main>
+
+
+    <div class="row" id="menu-bar">
+        <div class="container text-right p-4">
     </div>
 
-    <!-- Edit Task Modal -->
-    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalHeader"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="taskModalHeader">Edit Task</h5>
-                    <button type="button" class="close" id="edit-modal-close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="modal-task-title">Task Title</label>
-                            <input type="text" class="form-control" id="modal-task-title" style="font-family: 'Roboto', sans-serif;">
-                        </div>
-                        <div class="form-group">
-                            <label for="modal-task-date">Due Date</label>
-                            <input type="date" class="form-control" id="modal-task-date">
-                        </div>
-                        <div class="form-group" id="edit-category-div">
-                            <label for="edit-categoryInput">Category</label>
-                            <select class="custom-select" id="edit-categoryInput">
-                                <option selected disabled value="">Choose...</option>
-                                <option>General</option>
-                                <option>Add New Category</option>
-                            </select>
-                            <input type="text" class="form-control d-none" id="edit-form-new-category-input" placeholder="Type your new category here">
-                            <a href="#" class="text-primary d-block text-right" id="edit-modal-add-cat-btn">- Add New Category -</a>
-                        </div>
-                    </form>
 
-                    <!-- Alert section from BS for Edit Task Modal -->
-                    <div style="display: none" id="edit-task-alert" class="alert alert-danger" role="alert">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        <span class="sr-only">Error:</span> <span class="msg"></span>
+        <!-- Category Button trigger modal -->
+        <button type="button" id="cat-modal-btn" class="btn btn-primary d-none" data-toggle="modal"
+            data-target="#categoryModal">
+            Launch category modal
+        </button>
+
+        <!-- Task Button trigger modal -->
+        <button type="button" id="task-modal-btn" class="btn btn-primary d-none" data-toggle="modal"
+            data-target="#taskModal">
+            Launch task modal
+        </button>
+
+        <!-- Add New Category Modal -->
+        <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalHeader"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="categoryModalHeader">Add A New Category</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-edit-btn">Save changes</button>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="new-category-create">Category Name</label>
+                                <input type="text" class="form-control" id="new-category-create">
+                            </div>
+                        </form>
+
+                        <!-- Alert section from BS for New Category Name Modal -->
+                        <div style="display: none" id="add-category-alert" class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span> <span class="msg"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="close-cat-modal"
+                            data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" id="save-new-category">Add Category</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
-        <script src="js/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+        <!-- Edit Task Modal -->
+        <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalHeader"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="taskModalHeader">Edit Task</h5>
+                        <button type="button" class="close" id="edit-modal-close" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="modal-task-title">Task Title</label>
+                                <input type="text" class="form-control" id="modal-task-title"
+                                    style="font-family: 'Roboto', sans-serif;">
+                            </div>
+                            <div class="form-group">
+                                <label for="modal-task-date">Due Date</label>
+                                <input type="date" class="form-control" id="modal-task-date">
+                            </div>
+                            <div class="form-group" id="edit-category-div">
+                                <label for="edit-categoryInput">Category</label>
+                                <select class="custom-select" id="edit-categoryInput">
+                                    <option selected disabled value="">Choose...</option>
+                                    <option>General</option>
+                                    <option>Add New Category</option>
+                                </select>
+                                <input type="text" class="form-control d-none" id="edit-form-new-category-input"
+                                    placeholder="Type your new category here">
+                                <a href="#" class="text-primary d-block text-right" id="edit-modal-add-cat-btn">- Add
+                                    New Category -</a>
+                            </div>
+                        </form>
 
-    <!-- Custom Clock Script -->
-    <script type="text/javascript">
+                        <!-- Alert section from BS for Edit Task Modal -->
+                        <div style="display: none" id="edit-task-alert" class="alert alert-danger" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">Error:</span> <span class="msg"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="save-edit-btn">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        //clock js
-        const clock = document.getElementById('clock');
-
-        function updateTime() {
-            const time = moment().format("hh:mmA");
+        <!-- Script to Bootstrap's popper.js -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
         
-            clock.textContent = time;
-        }
+        <!-- Script to Bootstrap's jQuery -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+            
+        <!-- Script to moment.js -->
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
 
-        updateTime();
-        setInterval(updateTime, 1000);
-    </script>
-    <script src="js/members.js"></script>
+        <!-- Script to our chart.js -->
+        <script src="js/chart.js"></script>
 
-    
+        <!-- Custom Clock Script -->
+        <script src="js/clock.js"></script>
+
+        <!-- Script to our members.js -->
+        <script src="js/members.js"></script>
+
 </body>
 
 </html>
