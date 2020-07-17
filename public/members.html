@@ -18,23 +18,29 @@
 </head>
 
 <body>
+    <!-- Header background div w/ logout button-->
     <div class="row" id="menu-bar">
         <div class="container text-right p-1">
             <button type="button" class="btn btn-primary" onclick="window.location = `/logout`">Logout</button>
         </div>
     </div>
 
-    <div class="row" style="height: auto">
+    <!-- Full Row Div containing all the main content -->
+    <main class="row" style="height: auto">
 
-        <div class="col-sm-3 border text-white pb-3" style="height: auto; background-color: #4A6AEE;" id="sidebar">
+        <!-- Sidebar Column Section -->
+        <section class="col-sm-3 border text-white pb-3" style="height: auto; background-color: #4A6AEE;" id="sidebar">
+            <!-- Logo Div -->
             <div class="text-center">
-                <img src="/fmnlogo.png" style="width: 200px;">
+                <img src="/fmnlogo.png" alt="Forget Me Not Logo" style="width: 200px;">
             </div>
 
+            <!-- Clock Div -->
             <div class="d-flex justify-content-center m-2">
                 <div id="clock"></div>
             </div>
 
+            <!-- Add Task Input Div -->
             <div id="form" class="shadow m-3 p-3 text-secondary bg-light rounded">
                 <p class="h4" style="font-family: 'Bebas Neue', cursive;">Add your Tasks</p>
                 <form>
@@ -65,6 +71,7 @@
                 </div>
             </div>
 
+            <!-- Covid Tracking Div -->
             <div class="row overflow-auto px-3 m-3 shadow text-secondary bg-light rounded">
                 <p class="h4 my-3" style="font-family: 'Bebas Neue', cursive;">COVID TRACKING</p>
                 <div class="search-txt container mb-2 pl-0">
@@ -132,12 +139,14 @@
 
             </div>
 
-        </div>
+        </section>
 
-        <div class="col-sm-9 border bg-light white text-center" style="height: auto">
+        <!-- Tasks Column Section -->
+        <section class="col-sm-9 border bg-light white text-center" style="height: auto">
 
             <p class="h3 mx-5 my-3 text-left" style="font-family: 'Bebas Neue', cursive;">Upcoming Tasks</p>
             <div class="row mx-5 my-3 overflow-auto">
+                <!-- Tasks Table -->
                 <table class="table table-hover">
                     <thead>
                         <tr></tr>
@@ -147,6 +156,7 @@
                         <th scope="col">Status</th>
                         </tr>
                     </thead>
+                    <!-- Append table row items to the tasks-div -->
                     <tbody id="tasks-div">
                     </tbody>
                 </table>
@@ -154,8 +164,8 @@
 
             
 
-        </div>
-    </div>
+        </section>
+    </main>
 
 
     <div class="row" id="menu-bar">
@@ -260,32 +270,27 @@
             </div>
         </div>
 
+        <!-- Script to Bootstrap's popper.js -->
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
+        
+        <!-- Script to Bootstrap's jQuery -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
-        <script src="js/chart.js"></script>
+            
+        <!-- Script to moment.js -->
         <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
 
+        <!-- Script to our chart.js -->
+        <script src="js/chart.js"></script>
+
         <!-- Custom Clock Script -->
-        <script type="text/javascript">
+        <script src="js/clock.js"></script>
 
-            //clock js
-            const clock = document.getElementById('clock');
-
-            function updateTime() {
-                const time = moment().format("hh:mmA");
-
-                clock.textContent = time;
-            }
-
-            updateTime();
-            setInterval(updateTime, 1000);
-        </script>
+        <!-- Script to our members.js -->
         <script src="js/members.js"></script>
-
 
 </body>
 
