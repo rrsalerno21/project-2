@@ -5,7 +5,7 @@ let stateRes = [];
 let positiveRes= [];
 
 
-submitbtn.on('click', function(){
+submitbtn.addEventListener('click', function(){
   var settings = {
   "url": "https://covidtracking.com/api/states?state=" + state.value,
   "method": "GET",
@@ -43,10 +43,8 @@ function createChart() {
 
     let myChart = document.getElementById('myChart').getContext('2d');
 
-    // Global Options
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = '#777';
+
+    
     let massPopChart = new Chart(myChart, {
       type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
       data:{

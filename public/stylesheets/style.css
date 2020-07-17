@@ -47,14 +47,3 @@ th {
   background-image: url("/bgw.jpg");
 }
 
-/*chart css*/
-canvas {
-  border: 1px dotted red;
-}
-
-.chart-container {
-  position: relative;
-  margin: auto;
-  height: 80vh;
-  width: 80vw;
-}
