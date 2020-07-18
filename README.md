@@ -19,8 +19,9 @@ MIT
 
 ## Contributors
 
-- https://github.com/mrenadams
-- https://github.com/Reigningeddie
+- Website Design: https://github.com/mrenadams
+- COVID Tracking API, Chart.js, and Moment.js Implementation: https://github.com/Reigningeddie
+- Frontend and Backend Logic: myself, https://github.com/rrsalerno21
 
 ## Contributing
 
