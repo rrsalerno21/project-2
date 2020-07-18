@@ -30,8 +30,10 @@ deletebtn.on("click", () => {
   };
 
   $.ajax(settings).done(response => {
-    stateRes.pop(response.state);
-    positiveRes.pop(response.positive);
+    let sPos = stateRes.indexOf(response.state);
+    let pPos = positiveRes.indexOf(response.positive);
+    stateRes.splice (sPos, 1);
+    positiveRes.splice (pPos, 1);
     createChart();
   });
 });
