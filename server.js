@@ -1,6 +1,7 @@
 // Requiring necessary npm packages
 const express = require("express");
 const session = require("express-session");
+const compression = require("compression");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
 require("dotenv").config();
@@ -20,6 +21,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(compression());
 
 // Requiring our routes
 require("./routes/html-routes.js")(app);
